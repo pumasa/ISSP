@@ -1,6 +1,6 @@
 version: 2
 services:
-  db:
+  databases:
     image: mariadb:10.5.8
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: 1
@@ -22,5 +22,3 @@ services:
     depends_on:
       - db
 
-volumes:
-  issp_db_data:
