@@ -1,7 +1,9 @@
-version: 2
+---
+version: '3'
 services:
-  databases:
-    image: mysql:8.0
+  db:
+    image: mariadb:10.5.8
+    restart: always
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: 1
       MYSQL_USER: ptracker
@@ -10,15 +12,17 @@ services:
     volumes:
       - issp_db_data:/var/lib/mysql
     ports:
-      - 3306:3306
+      - "3306:3306"
   app:
+    depends_on:
+      - db
     build: .
     environment:
       DATABASE_URL: "mysql://ptracker:omgverysecret@db:3306/nurse_joy"
       DATABASE_URL_TESTING: "mysql://ptracker:omgverysecret@db:3306/nurse_joy_testing"
       APP_URL: http://localhost:8000
     ports:
-      - 8000:3000
-    depends_on:
-      - db
+      - '8000:3000'
 
+volumes:
+  issp_db_data:
